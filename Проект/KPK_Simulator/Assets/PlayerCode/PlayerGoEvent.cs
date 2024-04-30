@@ -19,7 +19,7 @@ public class PlayerGoEvent : MonoBehaviour
     public Transform groundCheck;
 
     // Расстояние от Ног игрока до Земли
-    public float groundDistance = 1.2f;
+    public float groundDistance = 1.36f;
     public LayerMask groundMask;
 
     // Быстрота (скорее всего падения)
