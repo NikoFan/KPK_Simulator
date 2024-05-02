@@ -37,7 +37,7 @@ public class CameraMovement : MonoBehaviour
         xRotation -= mouseY;
 
         // Ограничение вращения камеры (чтобы не было как у совы)
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, -60f, 20f);
 
         // Контроль подъема головы (вверх и вниз)
         yRotation += mouseX;
