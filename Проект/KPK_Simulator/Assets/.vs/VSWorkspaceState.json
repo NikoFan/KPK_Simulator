@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
+    "\\ObjectsCode",
     "\\PlayerCode"
   ],
-  "SelectedNode": "\\PlayerCode\\Contact.cs",
+  "SelectedNode": "\\PlayerCode\\PlayerGoEvent.cs",
   "PreviewInSolutionExplorer": false
 }

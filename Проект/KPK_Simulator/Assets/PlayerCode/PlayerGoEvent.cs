@@ -14,73 +14,65 @@ public class PlayerGoEvent : MonoBehaviour
     // Гравитация для Игрока
     public float peaceGravity = -9.8f * 2;
     // Высота прыжка
-    public float playerJumpHeight = 30f;
+    public float playerJumpHeight = 20f;
 
     // Проверка наличия материи под ногами
     public Transform groundCheck;
 
     // Расстояние от Ног игрока до Земли
-    public float groundDistance = 1.36f;
+    public float groundDistance = 0.3f;
 
     public LayerMask groundMask;
-    public LayerMask doorActionMask;
 
     // Быстрота (скорее всего падения)
     private Vector3 velocity;
 
     // Проверка что Игрок на земле
     private bool isGrounded;
-    private bool isDoorNear;
+    // Проверка что Игрок в полете
+    private bool isPlayerFly;
 
+    private void Start()
+    {
+        isPlayerFly = false;
+    }
 
-    /*
-    02.05 12-54
-    Ошибка 1:
-    В момент, когда камера направлена на ноги - не прыгает;
-    Фикс Ошибки 1:
-    Вариант 1 - Уменьшил допустимые градусы  при движении камерой-
-        Это позволило избежать наклона камеры в пол.
-        --ЭТО КОСТЫЛЬ--
-        Необходимо исправить
-    */
     // Update is called once per frame
     void Update()
     {
-        
+
+        Debug.Log(isGrounded);
+        Debug.Log(groundCheck.position);
+        Debug.Log(groundDistance);
+        Debug.Log(groundMask);
         // Проверка : если есть столкновение с поверхностью - пересчитать скорость падения, в ином случае скорость падения будет возрастать
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        isDoorNear = Physics.CheckSphere(groundCheck.position, groundDistance, doorActionMask);
         // Если косание есть и Y меньше 0
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
 
         // В Х помещается показатели горизонка
         float x = Input.GetAxis("Horizontal");
         // В Z показатели вертикали
         float z = Input.GetAxis("Vertical");
-
-        Vector3 move = transform.right * x + transform.forward * z;
-
-        controller.Move(move * playerSpeed * Time.deltaTime);
+        if (isGrounded)
+        {
+            Vector3 move = transform.right * x + transform.forward * z;
+            controller.Move(move * playerSpeed * Time.deltaTime);
+        } 
+        
+        
 
         // Проверка что Игрок стоит на земле
         // Если это так - Он может прыгнуть снова
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
+            jumpCalculate();
+            // Пользователь находится в полете
+            isPlayerFly = true;
             
-            // Если Игрок нажал "Прыжок" - идет рассчет его траектории
-            velocity.y = Mathf.Sqrt(playerJumpHeight * -2f * peaceGravity);
         }
-        
-
-        // Если Игрок зашел в область действия
-        if (isDoorNear && velocity.y < 0)
+        if (isPlayerFly && !isGrounded)
         {
-            Debug.Log("Open");
-            
-            
+            MoveInFlight();
         }
 
         // Изменяем показатели Вертикали
@@ -89,12 +81,17 @@ public class PlayerGoEvent : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
 
     }
-
-    void OnCollisionEnter(Collision col)
+    private void jumpCalculate()
     {
-        if (col.gameObject.name == "Stove")
-        {
-            Debug.Log("Open Door");
-        }
+        velocity.y = Mathf.Sqrt(playerJumpHeight * -2f * peaceGravity);
+        
+
+    }
+    private void MoveInFlight()
+    {
+        Debug.Log("Полет");
+        // Движение в процессе полета
+        Vector3 move = transform.forward * 1f;
+        controller.Move(move * playerSpeed * Time.deltaTime);
     }
 }
