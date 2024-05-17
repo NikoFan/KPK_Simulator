@@ -40,11 +40,6 @@ public class PlayerGoEvent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        Debug.Log(isGrounded);
-        Debug.Log(groundCheck.position);
-        Debug.Log(groundDistance);
-        Debug.Log(groundMask);
         // Проверка : если есть столкновение с поверхностью - пересчитать скорость падения, в ином случае скорость падения будет возрастать
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         // Если косание есть и Y меньше 0
@@ -89,9 +84,9 @@ public class PlayerGoEvent : MonoBehaviour
     }
     private void MoveInFlight()
     {
-        Debug.Log("Полет");
         // Движение в процессе полета
-        Vector3 move = transform.forward * 1f;
+        Vector3 move = transform.forward * 0.5f;
         controller.Move(move * playerSpeed * Time.deltaTime);
+        
     }
 }

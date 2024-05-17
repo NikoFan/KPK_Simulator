@@ -59,7 +59,9 @@
     <Compile Include="Assets\ObjectsCode\Contact.cs" />
     <Compile Include="Assets\ObjectsCode\TimeScript.cs" />
     <Compile Include="Assets\PlayerCode\CameraMovement.cs" />
+    <Compile Include="Assets\ObjectsCode\InteractableObject.cs" />
     <Compile Include="Assets\PlayerCode\PlayerGoEvent.cs" />
+    <Compile Include="Assets\ObjectsCode\OBJIdentifiScript.cs" />
     <Compile Include="Assets\ObjectsCode\DayChangeScript.cs" />
     <Compile Include="Assets\WorkWithJSON.cs" />
   </ItemGroup>
